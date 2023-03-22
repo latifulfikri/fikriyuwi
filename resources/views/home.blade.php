@@ -11,8 +11,7 @@
             <div class="col-md-6 d-flex">
                 <img src="{{ url('assets/img/ava.jpeg') }}" alt="" class="ava-header rounded-circle">
                 <div class="ms-4">
-                    <h4>Hi! I'm Fikri</h4>
-                    <h4>One of the computer student warior</h4>
+                    <h4 style="white-space: pre-wrap">{{ $profile->profile_greeting }}</h4>
                 </div>
             </div>
             <div class="col-md-6 text-start text-md-end pt-5 pt-md-0">
@@ -53,30 +52,24 @@
                 </div>
             </div>
             <div class="col-md-6">
+                @foreach ($experiences as $experience)
                 <div class="experience-item py-4">
-                    <h2 class="experience-title">Founder of <a href="https://srgepp.fikriyuwi.com" target="_blank" class="link link-theme">Srgepp</a></h2>
-                    <span class="experience-company">Bina Nusantara Computer Club</span>
+                    <h2 class="experience-headline">{{ $experience->experience_headline }}</h2>
+                    <span class="experience-company">{{ $experience->experience_company }}</span>
+                    <?php
+                    
+                    $start = date_create($experience->experience_start);
+                    $end = date_create($experience->experience_end);
+                    
+                    ?>
+                    <br><span class="experience-start text-secondary">{{ date_format($start,"F Y") }}</span>
+                    @if ($experience->experience_end != null)
+                    <span class="experience-start text-secondary"> - {{ date_format($end,"F Y") }}</span>
+                    @else
+                    <span class="experience-start text-secondary"> - current</span>
+                    @endif
                 </div>
-                <div class="experience-item py-4">
-                    <h2 class="experience-title">UI/UX LnT Trainer</h2>
-                    <span class="experience-company">Bina Nusantara Computer Club</span>
-                </div>
-                <div class="experience-item py-4">
-                    <h2 class="experience-title">Marketing Team</h2>
-                    <span class="experience-company">Bina Nusantara Group</span>
-                </div>
-                <div class="experience-item py-4">
-                    <h2 class="experience-title">Marketing Designer Team</h2>
-                    <span class="experience-company">Bina Nusantara Group</span>
-                </div>
-                <div class="experience-item py-4">
-                    <h2 class="experience-title">Mobile Application Developer</h2>
-                    <span class="experience-company">PT. Swamedia Informatika</span>
-                </div>
-                <div class="experience-item py-4">
-                    <h2 class="experience-title">Graphic Designer</h2>
-                    <span class="experience-company">Onlenkan.com</span>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -89,51 +82,43 @@
                 <h1 class="display-4 text-highlight text-heading">What I have made</h1>
             </div>
             <div class="col-12 pt-5 text-center">
-                <a href="" class="btn btn-sm btn-outline-light px-4 py-2 rounded-pill mb-3 me-3"><i class="fa-solid fa-display"></i> Website</a>
-                <a href="" class="btn btn-sm btn-outline-light px-4 py-2 rounded-pill mb-3 me-3"><i class="fa-solid fa-mobile-screen-button"></i> Mobile</a>
-                <a href="" class="btn btn-sm btn-outline-light px-4 py-2 rounded-pill mb-3"><i class="fa-regular fa-object-ungroup"></i> UI/UX</a>
+                @foreach ($types as $type)
+                <a href="" class="btn btn-sm btn-outline-light px-4 py-2 rounded-pill mb-3 me-3"><i class="{{ $type->type_icon }}"></i> {{ $type->type_name }}</a>
+                @endforeach
             </div>
         </div>
         <div class="row mt-5">
+            @foreach ($portfolios as $counter => $portfolio)
+            @if ($counter % 2 == 0)
             <div class="col-lg-4 col-md-6">
                 <div class="portfolio-item card rounded-0 p-0 mb-4">
                     <div class="card-header p-0 m-0">
-                        <img src="{{ url('assets/portfolio/srgepp.png') }}" alt="" class="portfolio-thumbnail">
+                        <img src="{{ url('assets/portfolio/'.$portfolio->portfolio_image) }}" alt="" class="portfolio-thumbnail">
                     </div>
                     <div class="card-body p-4 m-0">
                         <div class="bg"></div>
-                        <h2 class="fw-bolder text-highlight">Srgepp</h2>
-                        <span class="role">Full Stack Developer</span><br>
-                        <a href="" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                        <h2 class="fw-bolder text-highlight">{{ $portfolio->portfolio_headline }}</h2>
+                        <span class="role">{{ $portfolio->portfolio_role }}</span><br>
+                        <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
                     </div>
                 </div>
             </div>
+            @else
             <div class="col-lg-4 col-md-6">
                 <div class="portfolio-item card rounded-0 p-0 mb-4">
                     <div class="card-body p-4 m-0">
                         <div class="bg"></div>
-                        <h2 class="fw-bolder text-highlight">Binusmaya</h2>
-                        <span class="role">UI/UX Designer</span><br>
-                        <a href="" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                        <h2 class="fw-bolder text-highlight">{{ $portfolio->portfolio_headline }}</h2>
+                        <span class="role">{{ $portfolio->portfolio_role }}</span><br>
+                        <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
                     </div>
                     <div class="card-header p-0 m-0">
-                        <img src="{{ url('assets/portfolio/binusmaya.png') }}" alt="" class="portfolio-thumbnail">
+                        <img src="{{ url('assets/portfolio/'.$portfolio->portfolio_image) }}" alt="" class="portfolio-thumbnail">
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="portfolio-item card rounded-0 p-0 mb-4">
-                    <div class="card-header p-0 m-0">
-                        <img src="{{ url('assets/portfolio/village-hub.png') }}" alt="" class="portfolio-thumbnail">
-                    </div>
-                    <div class="card-body p-4 m-0">
-                        <div class="bg"></div>
-                        <h2 class="fw-bolder text-highlight">Village Hub</h2>
-                        <span class="role">Full Stack Developer</span><br>
-                        <a href="" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
-                    </div>
-                </div>
-            </div>
+            @endif
+            @endforeach
         </div>
     </div>
 </section>
@@ -180,8 +165,8 @@
         <div class="row">
             <div class="col-lg-6 offset-lg-3 py-5 text-center">
                 <a href="" class="link link-theme"><h1 class="display-3 fw-bolder text-heading">Reach Me!</h1></a>
-                <p class="mt-5">I love to design and make a great website. I speak Tech, UI/UX, Web Development, and Mobile App Development.</p>
-                <p>Fikriyuwi<br>Malang, Indonesia</p>
+                <p class="mt-5">{{ $profile->profile_contact }}</p>
+                <p>{{ $profile->profile_name }}<br>{{ $profile->profile_location }}</p>
                 <div class="row">
                     <div class="col-12 text-center pt-5">
                         <a href="https://www.linkedin.com/in/latifulfikri" target="_blank" class="link link-theme me-3 me-md-5"><i class="fw-bolder display-6 fa-brands fa-linkedin-in"></i></a>

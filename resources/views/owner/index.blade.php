@@ -1,4 +1,4 @@
-@extends('template.raw')
+@extends('template.owner')
 @section('main-content')
 <section id="header" class="py-5 d-flex align-items-center">
     <div class="container py-5 my-5">
@@ -10,8 +10,15 @@
         <div class="row mt-5 pt-0 pt-md-5">
             <div class="col-md-6 d-flex">
                 <img src="{{ url('assets/img/ava.jpeg') }}" alt="" class="ava-header rounded-circle">
-                <div class="ms-4">
-                    <h4 style="white-space: pre-line">{{ $profile->profile_greeting }}</h4>
+                <div class="ms-4" id="section-greeting">
+                    <h4 style="white-space: pre-wrap" contenteditable="true">{{ $profile->profile_greeting }}</h4>
+                    <form action="{{ url('owner/profile/greeting/update') }}" method="POST">
+                        @method('POST')
+                        @csrf
+                        <textarea rows="4" name="greeting" id="input-greeting" class="d-none" style="white-space: pre-wrap"></textarea>
+                        <a class="btn btn-theme rounded-pill d-none" id="submit-greeting"><i class="fa-solid fa-check"></i></button>
+                        <a class="ms-2 btn btn-danger rounded-pill d-none" id="cancel-greeting"><i class="fa-solid fa-x"></i></a>
+                    </form>
                 </div>
             </div>
             <div class="col-md-6 text-start text-md-end pt-5 pt-md-0">
@@ -44,18 +51,66 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-md-6">
-                <div class="py-5 sticky-top">
-                    <div class="py-5">
+                <div class="py-5 sticky-top bg-theme">
+                    <div class="pt-5">
                         <span>OVER 2 YEARS OF</span>
                         <h1 class="display-4 fw-bolder text-highlight text-heading">Experience</h1>
+                        <a class="btn btn-theme rounded-pill" id="add-experience">add <i class="fa-solid fa-plus"></i></a>
                     </div>
+                </div>
+                <div class="row d-none" id="form-experience">
+                    <form action="{{ url('owner/experience') }}" method="post" class="mt-5">
+                        @method('POST')
+                        @csrf
+                        <label for="experience_headline">Headline:</label>
+                        <input type="text" name="experience_headline" id="experience_headline" class="form-control mb-3" placeholder="Headline" required>
+                        <label for="experience_company">Company:</label>
+                        <input type="text" name="experience_company" id="experience_company" class="form-control mb-3" placeholder="Company" required>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="experience_start">Start:</label>
+                                <input type="month" name="experience_start" id="experience_start" class="form-control mb-3" placeholder="Start" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="experience_end">End:</label>
+                                <input type="month" name="experience_end" id="experience_end" class="form-control mb-3" placeholder="End">
+                            </div>
+                        </div>
+                        <label for="experience_description">Description:</label>
+                        <textarea class="form-control mb-3" name="experience_description" id="experience_description" rows="4" placeholder="Description" required></textarea>
+                        <button type="submit" class="btn btn-theme rounded-pill">save <i class="fa-solid fa-check"></i></button> <a class="btn btn-light rounded-pill" id="cancel-experience">cancel <i class="fa-solid fa-x"></i></a>
+                    </form>
                 </div>
             </div>
             <div class="col-md-6">
                 @foreach ($experiences as $experience)
                 <div class="experience-item py-4">
-                    <h2 class="experience-title">{{ $experience->experience_headline }}</h2>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h2 class="experience-headline">{{ $experience->experience_headline }}</h2>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center text-end pb-md-3 action-experience d-none">
+                            <a href="{{ url('owner/experience/'.$experience->experience_id.'/edit') }}" class="btn btn-theme rounded-circle me-2"><i class="fa-solid fa-pen"></i></a>
+                            <form action="{{ url('owner/experience/'.$experience->experience_id) }}" method="POST" onsubmit="return confirm('Do you really want to remove {{$experience->experience_headline}}?');">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-danger rounded-circle"><i class="fa-regular fa-trash-can"></i></button>
+                            </form>
+                        </div>
+                    </div>
                     <span class="experience-company">{{ $experience->experience_company }}</span>
+                    <?php
+                    
+                    $start = date_create($experience->experience_start);
+                    $end = date_create($experience->experience_end);
+                    
+                    ?>
+                    <br><span class="experience-start text-secondary">{{ date_format($start,"F Y") }}</span>
+                    @if ($experience->experience_end != null)
+                    <span class="experience-start text-secondary"> - {{ date_format($end,"F Y") }}</span>
+                    @else
+                    <span class="experience-start text-secondary"> - current</span>
+                    @endif
                 </div>
                 @endforeach
             </div>
@@ -167,4 +222,41 @@
         </div>
     </div>
 </section>
+@endsection
+
+@section('add-script')
+<script>
+    $('#section-greeting h4').on('focus', function(){
+        $('#section-greeting a').removeClass('d-none');
+    })
+
+    $('#section-greeting #cancel-greeting').click(function(){
+        $('#section-greeting a').addClass('d-none');
+    })
+
+    $('#section-greeting #submit-greeting').click(function(){
+        $('#section-greeting #input-greeting').val($('#section-greeting h4').text())
+        $('#section-greeting form').submit()
+    })
+    
+    // experience
+    $('#experience #add-experience').click(function(){
+        $('#experience #add-experience').addClass('d-none');
+        $('#experience #form-experience').removeClass('d-none');
+    })
+
+    $('#experience #cancel-experience').click(function(){
+        $('#experience #add-experience').removeClass('d-none');
+        $('#experience #form-experience').addClass('d-none');
+    })
+
+    $('#experience .experience-item').hover(
+        function(e){
+            $(this).find('.action-experience').removeClass('d-none');
+        },
+        function(e){
+            $(this).find('.action-experience').addClass('d-none');
+        }
+    )
+</script>
 @endsection

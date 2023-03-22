@@ -4,7 +4,7 @@
         @include('template.head')
     </head>
     <body class="bg-theme vh-100">
-        @include('template.navbar')
+        @include('template.owner-navbar')
         @yield('main-content')
         @include('template.script')
         @yield('add-script')

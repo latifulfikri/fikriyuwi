@@ -13,7 +13,6 @@ class Experience extends Model
     protected $primaryKey = 'experience_id';
 
     protected $fillable = [
-        'experience_id',
         'experience_headline',
         'experience_company',
         'experience_start',

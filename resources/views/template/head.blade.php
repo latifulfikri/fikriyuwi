@@ -35,6 +35,7 @@
                 --color-theme-text-highlight: #C7F011;
                 --color-theme-text-highlight-hover: #E5F0B4;
                 --color-theme-text: #ffffff;
+                --color-theme-text-secondary: #ffffffb3;
                 --color-theme-text-transparent: rgba(255,255,255,.3);
             }
 
@@ -264,5 +265,29 @@
                 66% {
                     margin-top: -14rem;
                 }
+            }
+
+            /* input */
+            .form-control {
+                background-color: var(--color-theme-bg);
+                color: var(--color-theme-text);
+                border-radius: 0;
+                color-scheme: dark;
+            }
+
+            .form-control::placeholder {
+                color: var(--color-theme-text-secondary);
+            }
+
+            .form-control:focus {
+                background-color: var(--color-theme-bg);
+                color: var(--color-theme-text);
+                border: 1px solid var(--color-theme-text-highlight);
+                box-shadow: 0 0 10px solid var(--color-theme-text-highlight-hover);
+            }
+
+            /* animation */
+            #form-experience {
+                transition: 1s;
             }
         </style>
