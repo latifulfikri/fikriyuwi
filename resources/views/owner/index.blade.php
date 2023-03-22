@@ -58,7 +58,7 @@
                         <a class="btn btn-theme rounded-pill" id="add-experience">add <i class="fa-solid fa-plus"></i></a>
                     </div>
                 </div>
-                <div class="row d-none" id="form-experience">
+                <div class="row d-none pt-5 bg-theme" id="form-experience">
                     <form action="{{ url('owner/experience') }}" method="post" class="mt-5">
                         @method('POST')
                         @csrf
@@ -249,11 +249,13 @@
     $('#experience #add-experience').click(function(){
         $('#experience #add-experience').addClass('d-none');
         $('#experience #form-experience').removeClass('d-none');
+        $('#experience #form-experience').addClass('sticky-top');
     })
 
     $('#experience #cancel-experience').click(function(){
         $('#experience #add-experience').removeClass('d-none');
         $('#experience #form-experience').addClass('d-none');
+        $('#experience #form-experience').removeClass('sticky-top');
     })
 
     $('#experience .experience-item').hover(
