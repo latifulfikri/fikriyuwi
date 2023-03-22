@@ -286,6 +286,13 @@
                 box-shadow: 0 0 10px solid var(--color-theme-text-highlight-hover);
             }
 
+            .form-control:disabled {
+                background-color: #000000;
+                color: var(--color-theme-text-secondary);
+                border: 1px solid #000000;
+            }
+
+
             /* animation */
             #form-experience {
                 transition: 1s;

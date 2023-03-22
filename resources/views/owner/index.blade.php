@@ -73,8 +73,14 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="experience_end">End:</label>
-                                <input type="month" name="experience_end" id="experience_end" class="form-control mb-3" placeholder="End">
+                                <input type="month" name="experience_end" id="experience_end" class="form-control mb-3" placeholder="End" required>
                             </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="current-work-check">
+                            <label class="form-check-label" for="current-work-check">
+                                Currently work here
+                            </label>
                         </div>
                         <label for="experience_description">Description:</label>
                         <textarea class="form-control mb-3" name="experience_description" id="experience_description" rows="4" placeholder="Description" required></textarea>
@@ -258,5 +264,17 @@
             $(this).find('.action-experience').addClass('d-none');
         }
     )
+
+    $('#current-work-check').change(function(){
+    if(this.checked) {
+        $('#experience_end').val('');
+        $('#experience_end').attr('required',false);
+        $('#experience_end').attr('disabled',true);
+    } else {
+        $('#experience_end').val('');
+        $('#experience_end').attr('required',true);
+        $('#experience_end').attr('disabled',false);
+    }
+})
 </script>
 @endsection

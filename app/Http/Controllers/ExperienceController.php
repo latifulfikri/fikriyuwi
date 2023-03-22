@@ -27,7 +27,7 @@ class ExperienceController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
         Experience::create([
             'experience_headline' => $request->experience_headline,
             'experience_company' => $request->experience_company,
@@ -63,12 +63,14 @@ class ExperienceController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $end = $request->experience_end == null ? null : $request->experience_end.'-01';
+
         $experience = Experience::find($id);
 
         $experience->experience_headline = $request->experience_headline;
         $experience->experience_company = $request->experience_company;
         $experience->experience_start = $request->experience_start.'-01';
-        $experience->experience_end = $request->experience_end.'-01';
+        $experience->experience_end = $end;
         $experience->experience_description = $request->experience_description;
         
         $experience->save();
