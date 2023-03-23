@@ -93,7 +93,7 @@
                 <div class="experience-item py-4">
                     <div class="row">
                         <div class="col-md-9">
-                            <h2 class="experience-headline">{{ $experience->experience_headline }}</h2>
+                            <h2 class="experience-headline text-theme">{{ $experience->experience_headline }}</h2>
                         </div>
                         <div class="col-md-3 d-flex align-items-center text-end action-experience d-none">
                             <a href="{{ url('owner/experience/'.$experience->experience_id.'/edit') }}" class="btn btn-theme rounded-circle me-2"><i class="fa-solid fa-pen"></i></a>
@@ -144,7 +144,7 @@
                     </div>
                 </div>
                 @endforeach
-                <a class="btn btn-sm btn-outline-light px4 py-2 rounded-pill mb-3" id="add-portfolio-type">add <i class="fa-solid fa-plus"></i></a>
+                <a class="btn btn-sm btn-theme px4 py-2 rounded-pill mb-3" id="add-portfolio-type">add <i class="fa-solid fa-plus"></i></a>
             </div>
             <div class="col-sm-6 col-md-4 offset-sm-3 offset-md-4 d-none" id="form-portfolio-type">
                 <div class="col-12 text-center">
