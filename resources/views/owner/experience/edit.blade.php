@@ -4,6 +4,9 @@
     <div class="container py-5 my-5">
         <div class="row">
             <div class="col-md-6 offset-md-3">
+                <div class="col-12 text-center">
+                    <h3 class="fw-bold">Edit Experience</h3>
+                </div>
                 <form action="{{ url('owner/experience/'.$experience->experience_id) }}" method="post" class="mt-5">
                     @method('PUT')
                     @csrf

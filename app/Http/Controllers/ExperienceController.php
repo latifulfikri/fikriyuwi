@@ -36,7 +36,7 @@ class ExperienceController extends Controller
             'experience_description' => $request->experience_description
         ]);
 
-        return redirect('owner');
+        return redirect('owner#experience');
     }
 
     /**
@@ -75,7 +75,7 @@ class ExperienceController extends Controller
         
         $experience->save();
 
-        return redirect('owner');
+        return redirect('owner#experience');
     }
 
     /**
@@ -86,6 +86,6 @@ class ExperienceController extends Controller
         $experience = Experience::find($id);
         $experience->delete();
 
-        return redirect('owner');
+        return redirect('owner#experience');
     }
 }

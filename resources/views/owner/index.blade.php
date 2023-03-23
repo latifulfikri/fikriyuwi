@@ -95,7 +95,7 @@
                         <div class="col-md-9">
                             <h2 class="experience-headline">{{ $experience->experience_headline }}</h2>
                         </div>
-                        <div class="col-md-3 d-flex align-items-center text-end pb-md-3 action-experience d-none">
+                        <div class="col-md-3 d-flex align-items-center text-end action-experience d-none">
                             <a href="{{ url('owner/experience/'.$experience->experience_id.'/edit') }}" class="btn btn-theme rounded-circle me-2"><i class="fa-solid fa-pen"></i></a>
                             <form action="{{ url('owner/experience/'.$experience->experience_id) }}" method="POST" onsubmit="return confirm('Do you really want to remove {{$experience->experience_headline}}?');">
                                 @method('DELETE')
@@ -125,15 +125,50 @@
 </section>
 <section id="portfolio" class="py-5">
     <div class="container">
-        <div class="row">
+        <div class="row" id="portfolio-type">
             <div class="col-12 text-center">
                 <span>AMAZING PROJECT IN PAST</span>
                 <h1 class="display-4 text-highlight text-heading">What I have made</h1>
             </div>
-            <div class="col-12 pt-5 text-center">
+            <div class="col-sm-6 col-md-4 offset-sm-3 offset-md-4 pt-5 text-center">
                 @foreach ($types as $type)
-                <a href="" class="btn btn-sm btn-outline-light px-4 py-2 rounded-pill mb-3 me-3"><i class="{{ $type->type_icon }}"></i> {{ $type->type_name }}</a>
+                <div class="bg-theme border border-light rounded-pill mb-3 p-2 item-portfolio-type d-flex align-items-center">
+                    <i class="{{ $type->type_icon }} me-2"></i> {{ $type->type_name }}
+                    <div id="action-portfolio-type" class="d-none d-flex align-items-center text-end ms-auto">
+                        <a href="{{ url('owner/portfolio-type/'.$type->type_id.'/edit') }}" class="btn btn-sm btn-theme rounded-pill me-2"><i class="fa-solid fa-pen"></i></a>
+                        <form action="{{ url('owner/portfolio-type/'.$type->type_id) }}" method="post" id="" onsubmit="return confirm('Do you really want to remove {{$type->type_name}}? All the portfolio(s) related will also being removed');">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-sm btn-danger rounded-pill"><i class="fa-regular fa-trash-can"></i></button>    
+                        </form>
+                    </div>
+                </div>
                 @endforeach
+                <a class="btn btn-sm btn-outline-light px4 py-2 rounded-pill mb-3" id="add-portfolio-type">add <i class="fa-solid fa-plus"></i></a>
+            </div>
+            <div class="col-sm-6 col-md-4 offset-sm-3 offset-md-4 d-none" id="form-portfolio-type">
+                <div class="col-12 text-center">
+                    <h3 class="fw-bold">Add new type</h3>
+                </div>
+                <span>Preview: </span>
+                <div class="p-2 border border-light rounded-pill mb-3 bg-light text-dark" id="preview-portfolio-type">
+                    <i></i><span id="text" class="ms-2"></span>
+                </div>
+                <form action="{{ url('owner/portfolio-type') }}" method="post">
+                    @method('POST')
+                    @csrf
+                    <div class="mb-3">
+                        <label for="type_name">Type Name</label>
+                        <input type="text" name="type_name" id="type_name" class="form-control" placeholder="type name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="type_icon">Icon class name from font awesome</label>
+                        <input type="text" name="type_icon" id="type_icon" class="form-control" placeholder="type icon" required>
+                    </div>
+                    <div class="col-12 d-flex">
+                        <a class="btn btn-light rounded-pill me-auto" id="cancel-portfolio-type">cancel <i class="fa-solid fa-x"></i></a><button type="submit" class="btn btn-theme rounded-pill">save <i class="fa-solid fa-check"></i></button>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="row mt-5">
@@ -232,6 +267,7 @@
 
 @section('add-script')
 <script>
+    
     $('#section-greeting h4').on('focus', function(){
         $('#section-greeting a').removeClass('d-none');
     })
@@ -277,6 +313,34 @@
         $('#experience_end').attr('required',true);
         $('#experience_end').attr('disabled',false);
     }
-})
+    })
+
+    // portfolio type
+    $('#portfolio #add-portfolio-type').click(function(){
+        $('#portfolio #add-portfolio-type').addClass('d-none');
+        $('#portfolio #form-portfolio-type').removeClass('d-none');
+    })
+
+    $('#portfolio #cancel-portfolio-type').click(function(){
+        $('#portfolio #add-portfolio-type').removeClass('d-none');
+        $('#portfolio #form-portfolio-type').addClass('d-none');
+    })
+
+    $('#portfolio-type .item-portfolio-type').hover(
+        function(e){
+            $(this).find('#action-portfolio-type').removeClass('d-none');
+        },
+        function(e){
+            $(this).find('#action-portfolio-type').addClass('d-none');
+        }
+    )
+
+    $('#portfolio-type #type_name').on('keyup',function(e){
+        $('#portfolio-type #preview-portfolio-type #text').html($(this).val())
+    })
+
+    $('#portfolio-type #type_icon').on('keyup',function(e){
+        $('#portfolio-type #preview-portfolio-type i').attr('class',$(this).val())
+    })
 </script>
 @endsection
