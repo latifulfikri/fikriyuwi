@@ -54,7 +54,7 @@
             <div class="col-md-6">
                 @foreach ($experiences as $experience)
                 <div class="experience-item py-4">
-                    <h2 class="experience-headline text-theme">{{ $experience->experience_headline }}</h2>
+                    <h2 class="experience-headline text-highlight">{{ $experience->experience_headline }}</h2>
                     <span class="experience-company">{{ $experience->experience_company }}</span>
                     <?php
                     

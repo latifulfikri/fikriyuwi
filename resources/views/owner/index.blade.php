@@ -93,7 +93,7 @@
                 <div class="experience-item py-4">
                     <div class="row">
                         <div class="col-md-9">
-                            <h2 class="experience-headline text-theme">{{ $experience->experience_headline }}</h2>
+                            <h2 class="experience-headline text-highlight">{{ $experience->experience_headline }}</h2>
                         </div>
                         <div class="col-md-3 d-flex align-items-center text-end action-experience d-none">
                             <a href="{{ url('owner/experience/'.$experience->experience_id.'/edit') }}" class="btn btn-theme rounded-circle me-2"><i class="fa-solid fa-pen"></i></a>
