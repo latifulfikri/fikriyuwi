@@ -19,9 +19,10 @@
                     <a class="nav-link" href="#reachme">Reach Me</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <a href="https://www.linkedin.com/in/latifulfikri" target="_blank" class="link link-theme me-4"><i class="fa-brands fw-bolder fa-linkedin-in"></i></a>
-                <a href="https://www.instagram.com/vikriyuwi/" target="_blank" class="link link-theme"><i class="fa-brands fw-bolder fa-instagram"></i></a>
+            <form class="d-flex" role="search" method="POST" action="{{ url('logout') }}">
+                @method('POST')
+                @csrf
+                <button type="submit" class="btn btn-theme rounded-pill">logout</button>
             </form>
         </div>
     </div>
