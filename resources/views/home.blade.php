@@ -99,7 +99,9 @@
                         <div class="bg"></div>
                         <h2 class="fw-bolder text-highlight">{{ $portfolio->portfolio_headline }}</h2>
                         <span class="role">{{ $portfolio->portfolio_role }}</span><br>
-                        <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                        <div class="d-flex align-items-center">
+                            <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,7 +112,9 @@
                         <div class="bg"></div>
                         <h2 class="fw-bolder text-highlight">{{ $portfolio->portfolio_headline }}</h2>
                         <span class="role">{{ $portfolio->portfolio_role }}</span><br>
-                        <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                        <div class="d-flex align-items-center">
+                            <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                        </div>
                     </div>
                     <div class="card-header p-0 m-0">
                         <img src="{{ url('assets/portfolio/'.$portfolio->portfolio_image) }}" alt="" class="portfolio-thumbnail">

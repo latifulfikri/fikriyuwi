@@ -4,6 +4,7 @@ use App\Http\Controllers\ExperienceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Owner;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PortfolioTypeController;
 use App\Http\Controllers\ProfileController;
 
@@ -39,5 +40,12 @@ Route::prefix('owner')->group(function(){
         Route::get('{portfoliotype}/edit',[PortfolioTypeController::class,'edit']);
         Route::put('{portfoliotype}',[PortfolioTypeController::class,'update']);
         Route::delete('{portfoliotype}',[PortfolioTypeController::class,'destroy']);
+    });
+
+    Route::prefix('portfolio')->group(function() {
+        Route::post('/',[PortfolioController::class,'store']);
+        Route::get('{portfoliotype}/edit',[PortfolioController::class,'edit']);
+        Route::put('{portfoliotype}',[PortfolioController::class,'update']);
+        Route::delete('{portfoliotype}',[PortfolioController::class,'destroy']);
     });
 });

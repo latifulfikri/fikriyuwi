@@ -13,11 +13,11 @@
                 "filter":"invert(1)"
             })
 
-            $(this).find('.card-body span').css({
+            $(this).find('.card-body .d-flex').css({
                 "filter":"invert(1)"
             })
 
-            $(this).find('.card-body a').css({
+            $(this).find('.card-body span').css({
                 "filter":"invert(1)"
             })
         },function(e) {
@@ -30,11 +30,11 @@
                 "filter":"invert(0)"
             })
 
-            $(this).find('.card-body span').css({
+            $(this).find('.card-body .d-flex').css({
                 "filter":"invert(0)"
             })
 
-            $(this).find('.card-body a').css({
+            $(this).find('.card-body span').css({
                 "filter":"invert(0)"
             })
         })

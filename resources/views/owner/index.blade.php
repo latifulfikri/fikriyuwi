@@ -183,7 +183,15 @@
                         <div class="bg"></div>
                         <h2 class="fw-bolder text-highlight">{{ $portfolio->portfolio_headline }}</h2>
                         <span class="role">{{ $portfolio->portfolio_role }}</span><br>
-                        <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                        <div class="d-flex align-items-center">
+                            <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                            <a href="{{ url('owner/portfolio/'.$portfolio->portfolio_id.'/edit') }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill ms-2"><i class="fa-solid fa-pen"></i></a>
+                            <form action="{{ url('owner/portfolio/'.$portfolio->portfolio_id) }}" method="post" onsubmit="return confirm('Do you really want to remove {{$portfolio->portfolio_headline}}?')">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 ms-2 rounded-pill"><i class="fa-regular fa-trash-can"></i></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -194,7 +202,15 @@
                         <div class="bg"></div>
                         <h2 class="fw-bolder text-highlight">{{ $portfolio->portfolio_headline }}</h2>
                         <span class="role">{{ $portfolio->portfolio_role }}</span><br>
-                        <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                        <div class="d-flex align-items-center">
+                            <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
+                            <a href="{{ url('owner/portfolio/'.$portfolio->portfolio_id.'/edit') }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill ms-2"><i class="fa-solid fa-pen"></i></a>
+                            <form action="{{ url('owner/portfolio/'.$portfolio->portfolio_id) }}" method="post" onsubmit="return confirm('Do you really want to remove {{$portfolio->portfolio_headline}}?')">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 ms-2 rounded-pill"><i class="fa-regular fa-trash-can"></i></button>
+                            </form>
+                        </div>
                     </div>
                     <div class="card-header p-0 m-0">
                         <img src="{{ url('assets/portfolio/'.$portfolio->portfolio_image) }}" alt="" class="portfolio-thumbnail">
@@ -203,6 +219,69 @@
             </div>
             @endif
             @endforeach
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <a class="btn btn-theme rounded-pill" id="add-portfolio">add <i class="fa-solid fa-plus"></i></a>
+            </div>
+        </div>
+        <div class="row d-none" id="form-portfolio">
+            <form action="{{ url('owner/portfolio') }}" method="POST" enctype="multipart/form-data">
+                @method('POST')
+                @csrf
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h3>Add new portfolio</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 p-3">
+                        <label for="portfolio_image" class="form-label">Image</label>
+                        <div class="border border-light p-3">
+                            <img src="" alt="" class="rounded-0">
+                            <input class="form-control" type="file" name="portfolio_image" id="portfolio_image" accept="image/png, image/gif, image/jpeg, image/jpg" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-8 p-3">
+                        <div class="mb-3 row">
+                            <div class="col-lg-8 mb-3 mb-lg-0">
+                                <label for="portfolio_headline" class="form-label">Headline:</label>
+                                <input type="text" name="portfolio_headline" id="portfolio_headline" class="form-control" placeholder="Headline" required>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="type_id" class="form-label">Type:</label>
+                                <select class="form-select" aria-label="Default select example" name="type_id" id="type_id">
+                                    <option selected disabled>Open this select menu</option>
+                                    @foreach ($types as $type)
+                                    <option value="{{ $type->type_id }}">{{ $type->type_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="portfolio_description" class="form-label">Description:</label>
+                            <textarea class="form-control" name="portfolio_description" id="portfolio_description" rows="4"></textarea>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-lg-8 mb-3 mb-lg-0">
+                                <label for="portfolio_role" class="form-label">Role:</label>
+                                <input type="text" name="portfolio_role" id="portfolio_role" class="form-control" placeholder="Role" required>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="portfolio_accomplished" class="form-label">Year Accomplished:</label>
+                                <input type="number" name="portfolio_accomplished" id="portfolio_accomplished" class="form-control" min="2017" max="2100" placeholder="YYYY" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="portfolio_link" class="form-label">Link:</label>
+                            <input type="text" name="portfolio_link" id="portfolio_link" class="form-control" placeholder="portfolio link" required>
+                        </div>
+                        <div class="col-12 d-flex">
+                            <a class="btn btn-light rounded-pill ms-auto me-3" id="cancel-portfolio">cancel <i class="fa-solid fa-x"></i></a><button type="submit" class="btn btn-theme rounded-pill">save <i class="fa-solid fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </section>
@@ -341,6 +420,22 @@
 
     $('#portfolio-type #type_icon').on('keyup',function(e){
         $('#portfolio-type #preview-portfolio-type i').attr('class',$(this).val())
+    })
+
+    // portfolio
+    $('#portfolio #form-portfolio #portfolio_image').on('change', function(e){
+        let image = URL.createObjectURL(e.target.files[0]);
+        $('#portfolio #form-portfolio img').attr('src',image)
+    })
+
+    $('#portfolio #add-portfolio').click(function(){
+        $('#portfolio #add-portfolio').addClass('d-none');
+        $('#portfolio #form-portfolio').removeClass('d-none');
+    })
+
+    $('#portfolio #cancel-portfolio').click(function(){
+        $('#portfolio #add-portfolio').removeClass('d-none');
+        $('#portfolio #form-portfolio').addClass('d-none');
     })
 </script>
 @endsection

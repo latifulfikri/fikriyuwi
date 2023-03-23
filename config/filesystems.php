@@ -56,6 +56,10 @@ return [
             'throw' => false,
         ],
 
+        'portfolio_upload' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/assets/portfolio/',
+        ],
     ],
 
     /*

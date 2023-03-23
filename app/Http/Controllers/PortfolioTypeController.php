@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portfolio;
 use App\Models\PortfolioType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File; 
 
 class PortfolioTypeController extends Controller
 {
@@ -76,8 +78,14 @@ class PortfolioTypeController extends Controller
     public function destroy(string $id)
     {
         $type = PortfolioType::find($id);
-        $type->delete();
 
+        $portfolios = Portfolio::where('type_id','=',$id)->get();
+
+        foreach ($portfolios as $index => $portfolio) {
+            File::delete('assets/portfolio/'.$portfolio->portfolio_image);
+        }
+
+        $type->delete();
         return redirect('owner#portfolio');
     }
 }
