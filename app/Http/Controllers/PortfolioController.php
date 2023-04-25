@@ -106,6 +106,9 @@ class PortfolioController extends Controller
             $portfolio->delete();
         }
 
-        return redirect('owner#portfolio');
+        return redirect('admin/portfolio')->with([
+            'status' => 'success',
+            'message' => $portfolio->title.' has ben deleted'
+        ]);
     }
 }

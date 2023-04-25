@@ -26,5 +26,11 @@ class DatabaseSeeder extends Seeder
             'username' => 'fikriyuwi',
             'password' => bcrypt('fikriyuwi1928')
         ]);
+        
+        User::create([
+            'name' => 'Bapak Danang',
+            'username' => 'dosen',
+            'password' => bcrypt('binu5mlg')
+        ]);
     }
 }
