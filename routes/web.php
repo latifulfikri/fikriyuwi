@@ -33,28 +33,7 @@ Route::group(['prefix' => 'owner','middleware' => 'auth'],function(){
         Route::post('greeting/update',[ProfileController::class,'updateGreeting']);
     });
     
-    Route::resource('/experience',ExperienceController::class);
-    Route::resource('/portfolio-type',PortfolioTypeController::class);
-    Route::resource('/portfolio',PortfolioController::class);
-
-//     Route::prefix('experience')->group(function() {
-//         Route::post('/',[ExperienceController::class,'store']);
-//         Route::get('/{experience}/edit',[ExperienceController::class,'edit']);
-//         Route::put('/{experience}',[ExperienceController::class,'update']);
-//         Route::delete('/{experience}',[ExperienceController::class,'destroy']);
-//     });
-
-//     Route::prefix('portfolio-type')->group(function() {
-//         Route::post('/',[PortfolioTypeController::class,'store']);
-//         Route::get('{portfoliotype}/edit',[PortfolioTypeController::class,'edit']);
-//         Route::put('{portfoliotype}',[PortfolioTypeController::class,'update']);
-//         Route::delete('{portfoliotype}',[PortfolioTypeController::class,'destroy']);
-//     });
-
-//     Route::prefix('portfolio')->group(function() {
-//         Route::post('/',[PortfolioController::class,'store']);
-//         Route::get('{portfoliotype}/edit',[PortfolioController::class,'edit']);
-//         Route::put('{portfoliotype}',[PortfolioController::class,'update']);
-//         Route::delete('{portfoliotype}',[PortfolioController::class,'destroy']);
-//     });
+    Route::resource('/experience',ExperienceController::class)->except(['show']);
+    Route::resource('/portfolio-type',PortfolioTypeController::class)->except(['show']);
+    Route::resource('/portfolio',PortfolioController::class)->except(['show']);
 });
