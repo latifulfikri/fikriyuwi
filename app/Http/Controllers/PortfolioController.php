@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Portfolio;
 use App\Models\PortfolioType;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class PortfolioController extends Controller
 {
@@ -30,20 +31,34 @@ class PortfolioController extends Controller
      */
     public function store(Request $request)
     {
-        
-        if( $path = $request->file('portfolio_image')->store('/',['disk' => 'portfolio_upload']) ) {
-            Portfolio::create([
-                'portfolio_headline' => $request->portfolio_headline,
-                'portfolio_description' => $request->portfolio_description,
-                'portfolio_role' => $request->portfolio_role,
-                'portfolio_accomplished' => $request->portfolio_accomplished,
-                'portfolio_link' => $request->portfolio_link,
-                'type_id' => $request->type_id,
-                'portfolio_image' => $path,
+        $validation = Validator::make($request->all(),[
+            'portfolio_headline' => 'required',
+            'portfolio_description' => 'required',
+            'portfolio_role' => 'required',
+            'portfolio_accomplished' => 'required',
+            'portfolio_link' => 'required',
+            'type_id' => 'required|exists:portfolio_type,type_id',
+            'portfolio_image' => 'required',
+        ]);
+
+        if($validation->fails()) {
+            return redirect('owner#portfolio')->with([
+                'error' => $validation->errors()
             ]);
         }
 
-        // File::delete('assets/portfolio/'.$path);
+        if( $path = $request->file('portfolio_image')->store('/',['disk' => 'portfolio_upload']) ) {
+            Portfolio::create([
+                "portfolio_headline" => $request->portfolio_headline,
+                "portfolio_description" => $request->portfolio_description,
+                "portfolio_role" => $request->portfolio_role,
+                "portfolio_accomplished" => $request->portfolio_accomplished,
+                "portfolio_link" => $request->portfolio_link,
+                "type_id" => $request->type_id,
+                "portfolio_image" => $path,
+            ]);
+        }
+
         return redirect('owner#portfolio');
     }
 
@@ -76,22 +91,28 @@ class PortfolioController extends Controller
     {
         $portfolio = Portfolio::find($id);
 
-        $portfolio->portfolio_headline = $request->portfolio_headline;
-        $portfolio->portfolio_description = $request->portfolio_description;
-        $portfolio->portfolio_role = $request->portfolio_role;
-        $portfolio->portfolio_accomplished = $request->portfolio_accomplished;
-        $portfolio->portfolio_link = $request->portfolio_link;
-        $portfolio->type_id = $request->type_id;
+        $validation = Validator::make($request->all(),[
+            'type_id' => 'exists:portfolio_type,type_id',
+        ]);
 
+        if($validation->fails()) {
+            return redirect('owner#portfolio')->with([
+                'error' => $validation->errors()
+            ]);
+        }
+
+        $imagepath = "";
         if($request->portfolio_image != $portfolio->portfolio_image ){
             if( $path = $request->file('portfolio_image')->store('/',['disk' => 'portfolio_upload']) ) {
                 if ($delete = File::delete('assets/portfolio/'.$portfolio->portfolio_image)) {
-                    $portfolio->portfolio_image = $path;
+                    $portfolio->update([
+                        "portfolio_image" => $path
+                    ]);
                 }
             }
         }
 
-        $portfolio->save();
+        $portfolio->update($request->except('portfolio_image'));
 
         return redirect('owner#portfolio');
     }
@@ -102,13 +123,19 @@ class PortfolioController extends Controller
     public function destroy(string $id)
     {
         $portfolio = Portfolio::find($id);
+        
         if(File::delete('assets/portfolio/'.$portfolio->portfolio_image)) {
             $portfolio->delete();
+
+            return redirect('owner#portfolio')->with([
+                'status' => 'success',
+                'message' => $portfolio->title.' has ben deleted'
+            ]);
         }
 
-        return redirect('admin/portfolio')->with([
-            'status' => 'success',
-            'message' => $portfolio->title.' has ben deleted'
+        return redirect('owner#portfolio')->with([
+            'status' => 'error',
+            'error' => 'Internal server error'
         ]);
     }
 }

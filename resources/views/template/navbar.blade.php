@@ -20,8 +20,8 @@
                 </li>
             </ul>
             <form class="d-flex" role="search">
-                <a href="https://www.linkedin.com/in/latifulfikri" target="_blank" class="link link-theme me-4"><i class="fa-brands fw-bolder fa-linkedin-in"></i></a>
-                <a href="https://www.instagram.com/vikriyuwi/" target="_blank" class="link link-theme"><i class="fa-brands fw-bolder fa-instagram"></i></a>
+                <a href="{{ $contacts[0]->contact_link }}" target="_blank" class="link link-theme me-4"><i class="fw-bolder {{ $contacts[0]->contact_icon }}"></i></a>
+                <a href="{{ $contacts[1]->contact_link }}" target="_blank" class="link link-theme"><i class="fw-bolder {{ $contacts[1]->contact_icon }}"></i></a>
             </form>
         </div>
     </div>

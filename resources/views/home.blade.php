@@ -82,15 +82,15 @@
                 <h1 class="display-4 text-highlight text-heading">What I have made</h1>
             </div>
             <div class="col-12 pt-5 text-center">
+                <button class="btn btn-sm btn-outline-light px-4 py-2 rounded-pill mb-3 me-3" onclick="filterPortfolio('all')">All</button>
                 @foreach ($types as $type)
-                <a href="" class="btn btn-sm btn-outline-light px-4 py-2 rounded-pill mb-3 me-3"><i class="{{ $type->type_icon }}"></i> {{ $type->type_name }}</a>
+                <button class="btn btn-sm btn-outline-light px-4 py-2 rounded-pill mb-3 me-3" onclick="filterPortfolio('portfolio-{{ $type->type_id }}')"><i class="{{ $type->type_icon }}"></i> {{ $type->type_name }}</button>
                 @endforeach
             </div>
         </div>
         <div class="row mt-5">
             @foreach ($portfolios as $counter => $portfolio)
-            @if ($counter % 2 == 0)
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-md-6 portfolio-item-section portfolio-{{$portfolio->Type->type_id}} show">
                 <div class="portfolio-item card rounded-0 p-0 mb-4">
                     <div class="card-header p-0 m-0">
                         <img src="{{ url('assets/portfolio/'.$portfolio->portfolio_image) }}" alt="" class="portfolio-thumbnail">
@@ -105,23 +105,6 @@
                     </div>
                 </div>
             </div>
-            @else
-            <div class="col-lg-4 col-md-6">
-                <div class="portfolio-item card rounded-0 p-0 mb-4">
-                    <div class="card-body p-4 m-0">
-                        <div class="bg"></div>
-                        <h2 class="fw-bolder text-highlight">{{ $portfolio->portfolio_headline }}</h2>
-                        <span class="role">{{ $portfolio->portfolio_role }}</span><br>
-                        <div class="d-flex align-items-center">
-                            <a href="{{ $portfolio->portfolio_link }}" class="btn btn-sm btn-outline-light mt-4 px-4 py-2 rounded-pill">LOOK UP <i class="ms-4 fa-solid fa-arrow-up"></i></a>
-                        </div>
-                    </div>
-                    <div class="card-header p-0 m-0">
-                        <img src="{{ url('assets/portfolio/'.$portfolio->portfolio_image) }}" alt="" class="portfolio-thumbnail">
-                    </div>
-                </div>
-            </div>
-            @endif
             @endforeach
         </div>
     </div>
@@ -173,14 +156,29 @@
                 <p>{{ $profile->profile_name }}<br>{{ $profile->profile_location }}</p>
                 <div class="row">
                     <div class="col-12 text-center pt-5">
-                        <a href="https://www.linkedin.com/in/latifulfikri" target="_blank" class="link link-theme me-3 me-md-5"><i class="fw-bolder display-6 fa-brands fa-linkedin-in"></i></a>
-                        <a href="https://www.instagram.com/vikriyuwi/" target="_blank" class="link link-theme me-3 me-md-5"><i class="fw-bolder display-6 fa-brands fa-instagram"></i></a>
-                        <a href="https://dribbble.com/latifulfikri" target="_blank" class="link link-theme me-3 me-md-5"><i class="fw-bolder display-6 fa-brands fa-dribbble"></i></a>
-                        <a href="mailto:hallo@fikriyuwi.com" target="_blank" class="link link-theme"><i class="fw-bolder display-6 fa-regular fa-envelope-open"></i></a>
+                        @foreach ($contacts as $contact)
+                            <a href="{{ $contact->contact_link }}" target="_blank" class="link link-theme mx-2 mx-md-4"><i class="fw-bolder display-6 {{ $contact->contact_icon }}"></i></a>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+@endsection
+
+@section('add-script')
+<script>
+    function filterPortfolio(c) {
+        var x,i;
+        x = $('.portfolio-item-section');
+        if(c == "all") {
+            $('.portfolio-item-section').addClass('show');
+        } else {
+            console.log('.portfolio-item-section.'+c);
+            $('.portfolio-item-section').removeClass('show');
+            $('.portfolio-item-section.'+c).addClass('show');
+        }
+    }
+</script>
 @endsection

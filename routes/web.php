@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ExperienceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Owner;
@@ -33,7 +34,8 @@ Route::group(['prefix' => 'owner','middleware' => 'auth'],function(){
         Route::post('greeting/update',[ProfileController::class,'updateGreeting']);
     });
     
-    Route::resource('/experience',ExperienceController::class)->except(['show']);
-    Route::resource('/portfolio-type',PortfolioTypeController::class)->except(['show']);
-    Route::resource('/portfolio',PortfolioController::class)->except(['show']);
+    Route::resource('/experience',ExperienceController::class)->except(['show','index','create']);
+    Route::resource('/portfolio-type',PortfolioTypeController::class)->except(['show','index','create']);
+    Route::resource('/portfolio',PortfolioController::class)->except(['show','index','create']);
+    Route::resource('/contact',ContactController::class)->except(['show','index','create']);
 });

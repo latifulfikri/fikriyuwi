@@ -331,11 +331,63 @@
                 <p class="mt-5">{{ $profile->profile_contact }}</p>
                 <p>{{ $profile->profile_name }}<br>{{ $profile->profile_location }}</p>
                 <div class="row">
-                    <div class="col-12 text-center pt-5">
-                        <a href="https://www.linkedin.com/in/latifulfikri" target="_blank" class="link link-theme me-3 me-md-5"><i class="fw-bolder display-6 fa-brands fa-linkedin-in"></i></a>
-                        <a href="https://www.instagram.com/vikriyuwi/" target="_blank" class="link link-theme me-3 me-md-5"><i class="fw-bolder display-6 fa-brands fa-instagram"></i></a>
-                        <a href="https://dribbble.com/latifulfikri" target="_blank" class="link link-theme me-3 me-md-5"><i class="fw-bolder display-6 fa-brands fa-dribbble"></i></a>
-                        <a href="mailto:hallo@fikriyuwi.com" target="_blank" class="link link-theme"><i class="fw-bolder display-6 fa-regular fa-envelope-open"></i></a>
+                    <div class="col-12 text-center">
+                        <a class="btn btn-theme rounded-pill" id="add-contact">add <i class="fa-solid fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 d-none text-start" id="form-contact">
+                        <div class="col-12 text-start">
+                            <h3 class="fw-bold">Add new contact</h3>
+                        </div>
+                        <span>Preview: </span>
+                        <div class="p-2 border border-light rounded-pill mb-3 bg-light text-dark" id="preview-contact">
+                            <i></i><span id="text" class="ms-2"></span>
+                        </div>
+                        <form action="{{ url('owner/contact') }}" method="post">
+                            @method('POST')
+                            @csrf
+                            <div class="mb-3">
+                                <label for="contact_name">Name</label>
+                                <input type="text" name="contact_name" id="contact_name" class="form-control" placeholder="contact name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_icon">Icon class name from font awesome</label>
+                                <input type="text" name="contact_icon" id="contact_icon" class="form-control" placeholder="contact icon" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_link">link</label>
+                                <input type="text" name="contact_link" id="contact_link" class="form-control" placeholder="contact link" required>
+                            </div>
+                            <div class="col-12 d-flex">
+                                <a class="btn btn-light rounded-pill me-auto" id="cancel-contact">cancel <i class="fa-solid fa-x"></i></a><button type="submit" class="btn btn-theme rounded-pill">save <i class="fa-solid fa-check"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 pt-5">
+                        @foreach ($contacts as $contact)
+                        <div class="contact-item py-4">
+                            <div class="row">
+                                <div class="col-md-12 text-start">
+                                    <h2 class="contact-headline text-highlight"><i class="{{$contact->contact_icon}}"></i> {{ $contact->contact_name }}</h2>
+                                    <a class="contact-link link-light" href="{{ $contact->contact_link }}">{{ $contact->contact_link }}</a>
+                                </div>
+                                <div class="col-md-12 text-start d-flex action-contact mt-4">
+                                    <a href="{{ url('owner/contact/'.$contact->contact_id.'/edit') }}" class="btn btn-theme rounded-circle me-2"><i class="fa-solid fa-pen"></i></a>
+                                    <form action="{{ url('owner/contact/'.$contact->contact_id) }}" method="POST" onsubmit="return confirm('Do you really want to remove {{$contact->contact_name}}?');">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger rounded-circle"><i class="fa-regular fa-trash-can"></i></button>
+                                    </form>
+                                </div>
+                                <div class="col-md-12">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -436,6 +488,31 @@
     $('#portfolio #cancel-portfolio').click(function(){
         $('#portfolio #add-portfolio').removeClass('d-none');
         $('#portfolio #form-portfolio').addClass('d-none');
+    })
+
+    // contact
+    $('#contact #form-contact #contact_image').on('change', function(e){
+        let image = URL.createObjectURL(e.target.files[0]);
+        $('#contact #form-contact img').attr('src',image)
+    })
+
+    $('#reachme #add-contact').click(function(){
+        console.log('yes');
+        $('#reachme #add-contact').addClass('d-none');
+        $('#reachme #form-contact').removeClass('d-none');
+    })
+
+    $('#reachme #cancel-contact').click(function(){
+        $('#reachme #add-contact').removeClass('d-none');
+        $('#reachme #form-contact').addClass('d-none');
+    })
+
+    $('#reachme #contact_name').on('keyup',function(e){
+        $('#reachme #preview-contact #text').html($(this).val())
+    })
+
+    $('#reachme #contact_icon').on('keyup',function(e){
+        $('#reachme #preview-contact i').attr('class',$(this).val())
     })
 </script>
 @endsection

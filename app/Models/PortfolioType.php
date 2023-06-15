@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PortfolioType extends Model
 {
@@ -17,8 +18,8 @@ class PortfolioType extends Model
         'type_icon'
     ];
 
-    public function Portfolio()
+    public function Portfolios(): HasMany
     {
-        return $this->belongsTo('App\Models\Portfolio','type_id','type_id');
+        return $this->hasMany('App\Models\Portfolio','type_id','type_id');
     }
 }

@@ -205,6 +205,16 @@
                 width: 100%;
             }
 
+            .portfolio-item-section.show {
+                display: block;
+                transition: .5s;
+            }
+
+            .portfolio-item-section {
+                display: none;
+                transition: .5s;
+            }
+
             /* slider */
             .slider {
                 margin:auto;

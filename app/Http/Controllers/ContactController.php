@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Portfolio;
-use App\Models\PortfolioType;
+use App\Models\Contact;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-
-class PortfolioTypeController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -23,7 +20,7 @@ class PortfolioTypeController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -32,19 +29,20 @@ class PortfolioTypeController extends Controller
     public function store(Request $request)
     {
         $validation = Validator::make($request->all(),[
-            'type_name' => 'required',
-            'type_icon' => 'required'
+            'contact_name' => 'required',
+            'contact_icon' => 'required',
+            'contact_link' => 'required',
         ]);
 
         if($validation->fails()) {
-            return redirect('owner#portfolio')->with([
+            return redirect('owner#reachme')->with([
                 'error' => $validation->errors()
             ]);
         }
 
-        PortfolioType::create($validation->validated());
+        Contact::create($validation->validated());
 
-        return redirect('owner#portfolio');
+        return redirect('owner#reachme');
     }
 
     /**
@@ -60,10 +58,8 @@ class PortfolioTypeController extends Controller
      */
     public function edit(string $id)
     {
-        $type = PortfolioType::find($id);
-        return view('owner.portfolio-type.edit',[
-            'type' => $type
-        ]);
+        $contact = Contact::find($id);
+        return view('owner.contact.edit',['contact' => $contact]);
     }
 
     /**
@@ -71,22 +67,23 @@ class PortfolioTypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $type = PortfolioType::find($id);
+        $contact = Contact::find($id);
 
         $validation = Validator::make($request->all(),[
-            'type_name' => 'required',
-            'type_icon' => 'required'
+            'contact_name' => 'required',
+            'contact_icon' => 'required',
+            'contact_link' => 'required',
         ]);
 
         if($validation->fails()) {
-            return redirect('owner#portfolio')->with([
+            return redirect('owner#reachme')->with([
                 'error' => $validation->errors()
             ]);
         }
 
-        $type->update($request->all());
+        $contact->update($request->all());
 
-        return redirect('owner#portfolio');
+        return redirect('owner#reachme');
     }
 
     /**
@@ -94,15 +91,8 @@ class PortfolioTypeController extends Controller
      */
     public function destroy(string $id)
     {
-        $type = PortfolioType::find($id);
-
-        $portfolios = Portfolio::where('type_id','=',$id)->get();
-
-        foreach ($portfolios as $index => $portfolio) {
-            File::delete('assets/portfolio/'.$portfolio->portfolio_image);
-        }
-
-        $type->delete();
-        return redirect('owner#portfolio');
+        $contact = Contact::find($id);
+        $contact->delete();
+        return redirect('owner#reachme');
     }
 }

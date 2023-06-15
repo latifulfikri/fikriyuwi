@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Models\Experience;
 use App\Models\Portfolio;
 use App\Models\PortfolioType;
@@ -19,11 +20,13 @@ class Owner extends Controller
         $experiences = Experience::orderBy('experience_start','DESC')->get();
         $types = PortfolioType::get();
         $portfolios = Portfolio::get();
+        $contacts = Contact::get();
         return view('owner.index',[
             'profile' => $profile,
             'experiences' => $experiences,
             'types' => $types,
             'portfolios' => $portfolios,
+            'contacts' => $contacts
         ]);
     }
 
